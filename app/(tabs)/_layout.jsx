@@ -7,7 +7,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 function Tablayout() {
   return (
     <Tabs screenOptions={{headerShown:false}}>
-        <Tabs.Screen name='MyMoney'
+        <Tabs.Screen name='MyBanking'
         options={{
             tabBarLabel:"My Banking",
             tabBarActiveTintColor:'black',
@@ -23,6 +23,20 @@ function Tablayout() {
         
         
         />
+          <Tabs.Screen name='Friends'
+        options={{
+            tabBarLabel:"My Friends",
+            tabBarActiveTintColor:'black',
+            tabBarLabelStyle: {
+            // Use the font family name you registered with useFonts
+              fontSize: 10, // You can adjust the size if needed
+            },
+            tabBarIcon:({color})=><MaterialIcons name="location-on" size={24} color={color} />,
+
+
+            
+        }}/>
+        
         {/* <Tabs.Screen name='discover' 
         
         options={{

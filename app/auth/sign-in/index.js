@@ -26,7 +26,7 @@ export default function SignIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-      
+        router.replace('/MyBanking');
         console.log("User signed in");
       })
       .catch((error) => {
@@ -76,7 +76,7 @@ export default function SignIn() {
 
       <TouchableOpacity
         style={styles.signInButton}
-       onPress={onSignIn()}
+       onPress={onSignIn}
       >
         <Text style={styles.signInButtonText}>Sign in</Text>
       </TouchableOpacity>

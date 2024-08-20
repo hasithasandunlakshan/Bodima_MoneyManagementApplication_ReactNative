@@ -1,12 +1,19 @@
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import React from 'react';
+import { useRouter } from 'expo-router';
 
 export default function UserCard({ user }) {
-
+const router =useRouter();
   const handleGiveMoney = () => {
     // Call the passed function for handling the Give Money action
-   
-      Alert.alert('Action', `Give Money button pressed for `);
+   router.push({
+
+
+    pathname:'/money/PaymentUpdate',
+    params:{user
+        :user.name,email:user.email},
+   })
+    //   Alert.alert('Action', `Give Money button pressed for `);
     
   };
 

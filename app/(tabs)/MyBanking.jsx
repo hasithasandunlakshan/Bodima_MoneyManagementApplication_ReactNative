@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 
 export default function MyMoney() {
   const route = useRouter();
@@ -17,6 +17,8 @@ export default function MyMoney() {
    
       <Button title="Pay Money" onPress={handlePayMoney} />
       <Button title="Give Money" onPress={handleGiveMoney} />
+      <Button title="Taken" onPress={()=>route.push('/userTransactions/Taken')} />
+      <Button title="Given" onPress={()=>route.push('/userTransactions/Given')} />
     </View>
   );
 }

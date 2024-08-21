@@ -1,13 +1,22 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { doc, updateDoc,addDoc,collection } from 'firebase/firestore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { auth, db } from '../../configs/fireBaseConfig';
-
+import { Alert } from 'react-native';
 export default function PaymentUpdate() {
   const [amount, setAmount] = useState('');
   const { user, email } = useLocalSearchParams(); 
   const router=useRouter();
+
+  const navigation=useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTranseparent: true,
+      headerTitle: 'Pay Money'
+    });
+  }, []);
  // const [username, setUsername] = useState('');
 const currentuserEmail=auth.currentUser.email;
 const currentUserName=auth.currentUser.displayName;
@@ -34,12 +43,30 @@ const currentUserName=auth.currentUser.displayName;
 
 
   const handleSubmit = () => {
-
-    updateTransaction(currentuserEmail,email,amount);
-    console.log(`Amount: ${amount}, Username: ${user}`);
-    router.replace({
-      pathname: '(tabs)/MyAcc', // Navigate back to home (or another screen)
-    });
+    // Add an alert to confirm the transaction
+    Alert.alert(
+      "Confirm Transaction",
+      `Are you sure you want to send Rs. ${amount} to ${user}?`,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Transaction canceled"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            // Proceed with the transaction if OK is pressed
+            updateTransaction(currentuserEmail, email, amount);
+            console.log(`Amount: ${amount}, Username: ${user}`);
+            router.replace({
+              pathname: '(tabs)/MyBanking', // Navigate back to home (or another screen)
+            });
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   };
 
   return (

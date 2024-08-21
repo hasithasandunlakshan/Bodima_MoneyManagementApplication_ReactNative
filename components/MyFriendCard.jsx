@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
 
 export default function MyFriendCard({ friend }) {
   if (!friend) {
@@ -12,8 +12,16 @@ export default function MyFriendCard({ friend }) {
   return (
     <TouchableOpacity style={styles.card} onPress={() => console.log(`Tapped on ${friend.name}`)}>
       <View style={styles.info}>
-        <Text style={styles.name}>{friend.name}</Text>
-        <Text style={styles.email}>{friend.email}</Text>
+      <Image
+        style={styles.avatar} 
+        source={ require("../assets/images/profile.png")} 
+      />
+<View   style={styles.userinfo}>
+<Text style={styles.name}>{friend.name}</Text>
+<Text style={styles.email}>{friend.email}</Text>
+
+</View>
+       
         {/* <Button 
           title="View Profile" 
           onPress={() => console.log(`View Profile of ${friend.name}`)} 
@@ -28,11 +36,11 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: 20,
     marginVertical: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 10,
     borderRadius: 8,
-    backgroundColor: '#bbbb',
+    backgroundColor: '#000',
     display: 'flex',
     flexDirection: 'column',
     maxHeight:100,
@@ -43,18 +51,29 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginRight: 16,
+    backgroundColor: 'rgb(250, 213, 29)', // Placeholder color
   },
   info: {
-    flex: 1,
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'flex-start',
+  
+  },
+  userinfo: {
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'flex-start',
+      width:'60%'
   },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#fff',
   },
   email: {
     fontSize: 14,
-    color: '#000',
+    color: '#fff',
     marginVertical: 4,
   },
 });

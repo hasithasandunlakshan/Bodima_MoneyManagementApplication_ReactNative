@@ -86,8 +86,11 @@ export default function Balances() {
 
     return (
         <View style={styles.container}>
+
+
+
             <Text style={styles.title}>Balances with Friends</Text>
-            {loading && <ActivityIndicator size={'large'} color={"#000"} />}
+            {loading && <ActivityIndicator size={'large'} color={"#fff"} />}
             {friendsBalances.length > 0 ? (
                 <View>
                     {friendsBalances.map(({ friendEmail, friendName, balance }, index) => {
@@ -114,13 +117,15 @@ export default function Balances() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 20,
+        backgroundColor:'#000'
     },
     title: {
         fontSize: 24,
         marginBottom: 20,
+        color:'#ffff'
     },
     amount: {
         fontSize: 18,

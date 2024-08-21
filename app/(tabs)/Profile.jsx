@@ -1,14 +1,13 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { auth } from '../../configs/fireBaseConfig';
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { deleteUser, signOut } from "firebase/auth";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const navigation=useNavigation();
 
   const signOutUser = () => {
     signOut(auth).then(() => {
@@ -40,6 +39,7 @@ export default function Profile() {
   const handleMyFriends = () => {
     router.push('userFriendsManage/friendlist'); // Navigate to the My Friends screen
   };
+
   if (!user) {
     return (
       <View style={styles.container}>
@@ -76,15 +76,17 @@ export default function Profile() {
         />
       </View>
 
-      {/* Add Friend Button */}
-      <TouchableOpacity style={[styles.button, styles.addButton]} onPress={handleAddFriends}>
-        <Text style={styles.buttonText}>Add Friend</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        {/* Add Friend Button */}
+        <TouchableOpacity style={[styles.button, styles.addButton]} onPress={handleAddFriends}>
+          <Text style={styles.buttonText}>Add Friend</Text>
+        </TouchableOpacity>
 
-      {/* My Friends Button */}
-      <TouchableOpacity style={[styles.button, styles.myFriendsButton]} onPress={handleMyFriends}>
-        <Text style={styles.buttonText}>My Friends</Text>
-      </TouchableOpacity>
+        {/* My Friends Button */}
+        <TouchableOpacity style={[styles.button, styles.myFriendsButton]} onPress={handleMyFriends}>
+          <Text style={styles.buttonText}>My Friends</Text>
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={signOutUser}>
         <Text style={styles.buttonText}>Log Out</Text>
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#000', // Background color black
   },
   profileContainer: {
     alignItems: 'center',
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    color: '#333',
+    color: '#fff', // Text color white
     marginBottom: 10,
     marginHorizontal: 10,
     fontFamily: 'poppins',
@@ -129,40 +131,50 @@ const styles = StyleSheet.create({
   },
   formLabel: {
     fontSize: 16,
-    color: '#666',
+    color: '#ddd', // Form label color
     marginBottom: 5,
     fontFamily: 'poppinsmedium',
   },
   input: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#333', // Input background color
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
+    color: '#fff', // Input text color white
     fontFamily: 'poppinsregular',
   },
+  buttonContainer: {
+    flexDirection: 'row', // Display buttons in a row
+    justifyContent: 'space-between',
+    width: '100%',
+    marginVertical: 10,
+  },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: '#fff', // Button background color white
     paddingVertical: 8,
     paddingHorizontal: 15,
+    minWidth:'50%',
     borderRadius: 10,
-    marginVertical: 7,
-    width: '70%',
+    marginHorizontal: 5,
     alignItems: 'center',
+    marginVertical:5
   },
   addButton: {
     backgroundColor: '#4CAF50',
+    flex: 1,
   },
   myFriendsButton: {
     backgroundColor: '#2196F3',
+    flex: 1,
   },
   logoutButton: {
-    backgroundColor: '#FFA726',
+    backgroundColor: '#fff',
   },
   deleteButton: {
     backgroundColor: '#F44336',
   },
   buttonText: {
-    color: '#fff',
+    color: '#000', // Button text color black
     fontSize: 16,
     fontFamily: 'poppinsmedium',
   },

@@ -5,12 +5,20 @@ import { useEffect, useState } from "react";
 import { query } from "firebase/firestore";
 import Friend from "../../components/Friend";
 import NonFriend from "../../components/NonFriend";
+import { useNavigation } from "expo-router";
 
 export default function ShowUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userFriend, setUserFriend] = useState([]);
-  
+  const navigation=useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTranseparent: true,
+      headerTitle: 'Add Friends'
+    });
+  }, []);
   // Get the current user
   const currentUser = auth.currentUser;
 

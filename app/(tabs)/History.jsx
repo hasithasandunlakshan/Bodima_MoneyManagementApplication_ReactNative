@@ -15,11 +15,11 @@ export default function MyMoney() {
   return (
     <View style={styles.container}>
    
-      <Button title="Pay Money" onPress={handlePayMoney} />
+     
      
       <Button title="Taken" onPress={()=>route.push('/userTransactions/Taken')} />
       <Button title="Given" onPress={()=>route.push('/userTransactions/Given')} />
-      <Button title="Transactions" onPress={()=>route.push('/userTransactions/Balances')} />
+     
     </View>
   );
 }

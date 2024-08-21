@@ -1,16 +1,25 @@
-import { View, Text, Button, StyleSheet, ActivityIndicator, ToastAndroid } from 'react-native';
+import { View, Text, Button, StyleSheet, ActivityIndicator, ToastAndroid, ScrollView } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { auth, db } from '../../configs/fireBaseConfig'; // Adjust the import path as needed
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import MyFriendCard from '../../components/MyFriendCard';
 import Friend from '../../components/Friend';
 import { FriendsList } from '../../context/createFriendList';
+import { useNavigation } from 'expo-router';
 
 export default function FriendList() {
   const [loading, setLoading] = useState(false);
   const [friendList, setFriendList] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
-  
+  const navigation=useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTranseparent: true,
+      headerTitle: 'My Friends'
+    });
+  }, []);
+
   // Get the current user
   const currentUser = auth.currentUser;
 useEffect(()=>{
@@ -56,14 +65,14 @@ useEffect(()=>{
   //
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Friend List</Text>
+   
       {/* <View style={styles.buttonContainer}>
         <Button title="Fetch Friends" onPress={fetchUsers} />
       </View> */}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <View>
+        <ScrollView>
           {friendList.length > 0 ? (
             friendList.map((friend, index) => (
               <MyFriendCard friend={friend} key={index} />
@@ -73,7 +82,7 @@ useEffect(()=>{
           ) : (
             <Text>No friends found.</Text>
           )}
-        </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -85,6 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor:'#39393c'
   },
   title: {
     fontSize: 24,

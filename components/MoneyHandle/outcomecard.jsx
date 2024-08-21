@@ -4,16 +4,18 @@ import React from 'react';
 export default function Outcomecard({ userName, amount }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.userName}>{userName}</Text>
-      <Text style={styles.amount}>RS: {amount}</Text>
-    </View>
+    <Text style={styles.userName}>Get from {userName}</Text>
+    <Text style={styles.amount}>RS: {amount}</Text>
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#F44336', // Red color
-    padding: 15,
+    backgroundColor: '#4CAF50', // Red color
+  minWidthwidth:'100%',
+  paddingVertical:5,
+  paddingHorizontal:25,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOpacity: 0.2,
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     marginVertical: 10,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   userName: {
     fontSize: 20,

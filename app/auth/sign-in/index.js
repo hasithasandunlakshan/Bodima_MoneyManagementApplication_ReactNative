@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   signInButton: {
     padding: 15,
-    backgroundColor: 'blue',
+    backgroundColor: 'black',
     borderRadius: 10,
     marginTop: 20,
   },

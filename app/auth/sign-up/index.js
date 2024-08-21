@@ -37,7 +37,9 @@ export default function CreateAccount() {
                     displayName: fullname
                   })
                 await setDoc(doc(db, "users", user.email), docData); // Save with user.uid as document ID
-                console.log("Account created successfully!");
+                // console.log("Account created successfully!");
+                ToastAndroid.show("Account Created Successfully", ToastAndroid.TOP);
+                router.replace("/auth/sign-in");
             })
             .catch((error) => {
                 const errorMessage = error.message;

@@ -10,11 +10,10 @@ export default function Index() {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+   
       }}
     >
-{user? <Redirect href={'/MyBanking'}/>:<Login/>}
+{user? <Redirect href={'/MyAcc'}/>:<Login/>}
     </View>
   );
 }

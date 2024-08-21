@@ -1,23 +1,79 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { collection, query, where, getDocs } from "firebase/firestore"; 
 import { auth, db } from '../../configs/fireBaseConfig'; // Ensure db is imported
 
 export default function Given() {
-    const currentuser = auth.currentUser;
+    const [receiverAmounts, setReceiverAmounts] = useState([]);
+    const currentUser = auth.currentUser;
 
-    const getTransactions = async () => {
-        const q = query(collection(db, "Transactions"), where("Sender", "==", currentuser.email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
-        });
-    }
+    
+    const getReceiversList = async () => {
+
+        if (!currentUser) {
+            console.error("No user is currently signed in.");
+            return;
+        }
+
+        try {
+            // Step 1: Get the list of all receivers for the current user
+            const q = query(
+                collection(db, "Transactions"), 
+                where("Receiver", "==", currentUser.email)
+            );
+
+            const querySnapshot = await getDocs(q);
+            const receiverAmountsMap = {};
+
+            // Step 2: Collect unique receivers and prepare amounts map
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const senderEmail = data.Sender;
+                const senderName = data.SenderName;
+
+                // Convert amount to a number using parseFloat for accuracy
+                const amount = parseFloat(data.Amount) || 0;
+
+                if (senderEmail) {
+                    if (!receiverAmountsMap[senderEmail]) {
+                        receiverAmountsMap[senderEmail] = { name: senderName, amount: 0 };
+                    }
+                    receiverAmountsMap[senderEmail].amount += amount;
+                    console.log(amount);
+                }
+            });
+
+            // Convert receiverAmountsMap to an array of objects for easier display
+            const receiverAmountsArray = Object.entries( receiverAmountsMap).map(([email, { name, amount }]) => ({
+                senderName: name,
+                amount: amount.toFixed(2), // Optional: Format the amount to 2 decimal places
+            }));
+
+            setReceiverAmounts(receiverAmountsArray);
+            console.log("Receiver amounts:", receiverAmountsArray);
+        } catch (error) {
+            console.error("Error getting transactions:", error);
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Given Transactions</Text>
-            <Button title="Fetch Transactions" onPress={getTransactions} />
+            <Text style={styles.title}>Total Amounts Given to Each Receiver</Text>
+            <Button 
+                title="Mt Apuwa" 
+                onPress={getReceiversList} 
+            />
+            {receiverAmounts.length > 0 ? (
+                <View>
+                    {receiverAmounts.map(({ senderName, amount }, index) => (
+                        <Text key={index} style={styles.amount}>
+                            {senderName}: RS: {amount}
+                        </Text>
+                    ))}
+                </View>
+            ) : (
+                <Text>No data available.</Text>
+            )}
         </View>
     );
 }
@@ -27,9 +83,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 20,
     },
     title: {
         fontSize: 24,
         marginBottom: 20,
+    },
+    amount: {
+        fontSize: 18,
+        marginVertical: 5,
     },
 });

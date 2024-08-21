@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { auth, db } from '../configs/fireBaseConfig';
 import { View, Text, Image, Button, StyleSheet } from 'react-native';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 
-export default function Friend({ user }) {
+export default function NonFriend({ user }) {
   const currentUser = auth.currentUser;
-  const [buttonTitle, setButtonTitle] = useState('Add Friend');
-  const [buttonstatus, setButtonStatus] = useState(false);
+
   const updateUserDoc = async (email, updateData) => {
     try {
       const userRef = doc(db, 'users', email); // Using email as the document ID
@@ -58,8 +57,6 @@ export default function Friend({ user }) {
   const addfriendButton = async (currentUser1, user) => {
     await handleAddFriend(currentUser1, user);  // Update current user's friend list
     await handleAddFriend(user, currentUser1);  // Update friend's friend list
-    setButtonStatus(true)
-    setButtonTitle("Friends")
   };
 
   return (
@@ -72,10 +69,10 @@ export default function Friend({ user }) {
         <Text style={styles.name}>{user.UserName}</Text>
         <Text style={styles.email}>{user.email}</Text>
         <Button 
-          title={buttonTitle}
-          onPress={() => addfriendButton(auth.currentUser, user)} 
-          disabled={buttonstatus}
-        />
+  title="Friends" 
+  disabled={true}  // Set this to `true` to disable the button
+/>
+
       </View>
     </View>
   );

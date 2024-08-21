@@ -21,7 +21,7 @@ const router =useRouter();
     <View style={styles.card}>
       <Text style={styles.username}>{user.name}</Text>
       <Button 
-        title="Give Money" 
+        title="Give Money/Pay" 
         onPress={handleGiveMoney} 
         color="#007BFF" // Optional: Customize the button color
       />

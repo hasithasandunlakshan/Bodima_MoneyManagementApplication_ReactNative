@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { doc, updateDoc,addDoc,collection } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
@@ -7,8 +7,10 @@ import { auth, db } from '../../configs/fireBaseConfig';
 export default function PaymentUpdate() {
   const [amount, setAmount] = useState('');
   const { user, email } = useLocalSearchParams(); 
+  const router=useRouter();
  // const [username, setUsername] = useState('');
 const currentuserEmail=auth.currentUser.email;
+const currentUserName=auth.currentUser.displayName;
  const updateTransaction = async (currentUserEmail, friendEmail, amount) => {
     try {
       // Reference to the 'Transactions' collection
@@ -17,7 +19,9 @@ const currentuserEmail=auth.currentUser.email;
       // Create a new document in the 'Transactions' collection
       const newTransaction = await addDoc(transactionRef, {
         Sender: currentUserEmail,
+        SenderName:currentUserName,
         Receiver: friendEmail,
+        ReceiverName:user,
         Amount: amount,
         Timestamp: new Date(), // Optional: Add a timestamp
       });
@@ -33,7 +37,9 @@ const currentuserEmail=auth.currentUser.email;
 
     updateTransaction(currentuserEmail,email,amount);
     console.log(`Amount: ${amount}, Username: ${user}`);
-    // Add logic for handling the payment update
+    router.replace({
+      pathname: '(tabs)/MyAcc', // Navigate back to home (or another screen)
+    });
   };
 
   return (
